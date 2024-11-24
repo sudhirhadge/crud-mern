@@ -14,6 +14,7 @@ const Product = () => {
           : {};
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND}/products`, {
+          mode: 'no-cors',
           method: "GET",
           headers: {
             ...headers,
@@ -39,6 +40,7 @@ const Product = () => {
     const fetchTest = async () => {
       try {
         const response = await fetch("https://crudappmern.vercel.app/api/test", {
+          mode: 'no-cors',
           method: "GET",
           headers: {
             "Content-Type": "application/json",
