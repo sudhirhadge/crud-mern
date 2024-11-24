@@ -13,7 +13,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "https://crufrontend.vercel.app",
+  origin: "https://crud-mern-u3vr.vercel.app/",
   methods: ["GET", "POST", "PUT", "DELETE"], // Fixed methods array
   allowedHeaders: ["Content-Type", "Authorization"],
   // credentials: true, // Allow cookies and headers like Authorization
