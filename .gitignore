@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+
+# Environment files
+.env
+
+# Build output (for React app)
+client/build/
+server/build/
+
+# Logs
+*.log
