@@ -2,10 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import AuthContext from "./context/AuthContext";
 
+
 const Product = () => {
   const [products, setProducts] = useState([]);
   const { user, loading } = useContext(AuthContext);
 
+  axios.defaults.withCredentials = true
   useEffect(() => {
     const fetchProducts = async () => {
       const token = localStorage.getItem("token");
