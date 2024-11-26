@@ -13,7 +13,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "https://crufrontend.vercel.app",
+  origin: ["http://localhost:3000", "https://crufrontend.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"], // Fixed methods array
   allowedHeaders: ["Content-Type", "Authorization"],
   // credentials: true, // Allow cookies and headers like Authorization
@@ -31,23 +31,27 @@ app.use(morgan("dev"));
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://sudhirhadge:Login_6815@sudhircluster.teaog.mongodb.net/CRUDAuthJSONWEBTOKEN?retryWrites=true&w=majority&appName=sudhirCluster",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("MongoDB connected"))
   .catch((err) => {
     console.error("MongoDB connection error:", err);
     process.exit(1); // Exit if there's a database connection error
   });
-app.get("/api/test", (req, res) => {
-  res.send("API is working");
-});
 
 // Routes
 app.use("/api/items", itemRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Hello World, This is my first app deployed on vercel");
+});
 
 // Error handling middleware (single instance)
 app.use((err, req, res, next) => {
