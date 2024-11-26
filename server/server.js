@@ -44,6 +44,15 @@ mongoose
     process.exit(1); // Exit if there's a database connection error
   });
 
+// Error handling middleware (single instance)
+app.use((err, req, res, next) => {
+  console.log(
+    `Incoming request: ${req.method} ${req.url} from ${req.headers.origin}`
+  );
+  console.error(err.stack);
+  res.status(500).json({ message: err.message });
+});
+
 // Routes
 app.use("/api/items", itemRoutes);
 app.use("/api/users", userRoutes);

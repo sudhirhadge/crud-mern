@@ -22,9 +22,9 @@ function App() {
           <Register />
           <Login />
           </div>
-          <UserInfo />
-          <AddItem currentItem={currentItem} setCurrentItem={setCurrentItem} />
-      <ItemList setCurrentItem={setCurrentItem} />
+          // <UserInfo />
+          // <AddItem currentItem={currentItem} setCurrentItem={setCurrentItem} />
+      // <ItemList setCurrentItem={setCurrentItem} />
       <Product/>
           {/* <Users/> */}
         </div>

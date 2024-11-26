@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import AuthContext from "./context/AuthContext";
 
 const Product = () => {
@@ -10,15 +9,25 @@ const Product = () => {
     const fetchProducts = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/products`,
-          {
-            headers: {
-              Authorization: user ? `Bearer ${token}` : "",
-            },
-          }
-        );
-        setProducts(response.data);
+        const headers = token
+          ? { Authorization: `Bearer ${token}` }
+          : {};
+
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/products`, {
+          method: "GET",
+          headers: {
+            ...headers,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+        console.log("data",data)
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -28,23 +37,27 @@ const Product = () => {
   }, [user]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchTest = async () => {
       try {
-        const response = await axios.get(
-          `https://crudappmern.vercel.app/api/test`,
-          {
-            headers: {
-              Authorization: "",
-            },
-          }
-        );
-        console.log(response);
+        const response = await fetch("https://crudappmern.vercel.app/api/test", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch test API");
+        }
+
+        const data = await response.json();
+        console.log(data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching test API:", error);
       }
     };
 
-    fetchProducts();
+    fetchTest();
   }, []);
 
   if (loading) {
@@ -53,7 +66,7 @@ const Product = () => {
 
   return (
     <>
-      {!user && <h4> Login to see discounted prices</h4>}
+      {!user && <h4>Login to see discounted prices</h4>}
       <div className="product-catalogue">
         {products.map((product) => (
           <div key={product._id} className="product-card">
