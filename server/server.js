@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 // MongoDB connection
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose
-  .connect(`"${MONGODB_URL}"`, {
+  .connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
