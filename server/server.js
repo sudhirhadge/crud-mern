@@ -35,13 +35,10 @@ app.use(morgan("dev"));
 // MongoDB connection
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose
-  .connect(
-    "mongodb+srv://sudhirhadge:Login_6815@sudhircluster.teaog.mongodb.net/CRUDAuthJSONWEBTOKEN?retryWrites=true&w=majority&appName=sudhirCluster",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => {
     console.error("MongoDB connection error:", err);
