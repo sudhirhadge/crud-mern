@@ -13,7 +13,10 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL, "http://localhost:3000"],
+  origin: [
+    "mongodb+srv://sudhirhadge:Login_6815@sudhircluster.teaog.mongodb.net/CRUDAuthJSONWEBTOKEN?retryWrites=true&w=majority&appName=sudhirCluster",
+    "http://localhost:3000",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Fixed methods array
   allowedHeaders: ["Content-Type", "Authorization"],
   preflightContinue: false, // Don't pass the CORS response to the next handler
