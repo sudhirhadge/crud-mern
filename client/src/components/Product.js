@@ -9,24 +9,25 @@ const Product = () => {
     const fetchProducts = async () => {
       const token = localStorage.getItem("token");
       try {
-        const headers = token
-          ? { Authorization: `Bearer ${token}` }
-          : {};
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        const response = await fetch(`${process.env.REACT_APP_BACKEND}/products`, {
-          method: "GET",
-          headers: {
-            ...headers,
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND}/products`,
+          {
+            method: "GET",
+            headers: {
+              ...headers,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
 
         const data = await response.json();
-        console.log("data",data)
+        console.log("data", data);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -35,30 +36,6 @@ const Product = () => {
 
     fetchProducts();
   }, [user]);
-
-  useEffect(() => {
-    const fetchTest = async () => {
-      try {
-        const response = await fetch("https://crudappmern.vercel.app/api/test", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch test API");
-        }
-
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching test API:", error);
-      }
-    };
-
-    fetchTest();
-  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
