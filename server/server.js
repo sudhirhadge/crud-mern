@@ -13,11 +13,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: [
-    process.env.FRONTEND_URL,
-    "http://localhost:3000",
-    "https://crud-mern-u3vr.vercel.app",
-  ],
+  origin: [process.env.FRONTEND_URL, "http://localhost:3000"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Fixed methods array
   allowedHeaders: ["Content-Type", "Authorization"],
   preflightContinue: false, // Don't pass the CORS response to the next handler
