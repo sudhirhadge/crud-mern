@@ -17,7 +17,7 @@ function App() {
     <Provider store={store}>
       <AuthProvider>
         <div className="App">
-          <h1>My MERN App</h1>
+          <h1>Login by sudhir </h1>
           <div className='RegisterLogin'>
           <Register />
           <Login />
