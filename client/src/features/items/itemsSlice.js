@@ -3,12 +3,12 @@ import axios from 'axios';
 
 export const fetchItems = createAsyncThunk('items/fetchItems', async () => {
   const token = localStorage.getItem('token');
-  const response = await axios.get(`${process.env.REACT_APP_BACKEND}/items`, {
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/items`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
-  console.log("response.data",response.data)
+  console.log("response.data", response.data)
   return response.data;
 });
 
