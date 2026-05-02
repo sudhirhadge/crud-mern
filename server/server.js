@@ -13,7 +13,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL, "http://localhost:3000"],
+  origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Fixed methods array
   allowedHeaders: ["Content-Type", "Authorization"],
   preflightContinue: false, // Don't pass the CORS response to the next handler
