@@ -3,12 +3,12 @@ import axios from 'axios';
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const token = localStorage.getItem('token');
-  const response = await axios.get(`${process.env.REACT_APP_BACKEND}/users`, {
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
-  console.log("users",response.data )
+  console.log("users", response.data)
   return response.data;
 });
 
