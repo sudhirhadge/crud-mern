@@ -15,31 +15,45 @@ function Login() {
     dispatch(fetchItems());
   };
 
-  if(user){
-    // if user is having something , then provide logout button
-    return <button style={{"margin-left": "auto"}} onClick={()=>logout()}>Log out </button>
-
+  if (user) {
+    return (
+      <button
+        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+        onClick={() => logout()}
+      >
+        Logout
+      </button>
+    );
   }
 
-
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="space-y-4">
       <input
+        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
         type="text"
+        placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
       />
+
       <input
+        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-500"
         type="password"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
       />
-      <button type="submit">Login</button>
-      {error && <h1>{ error } </h1>}
+
+      {error && (
+        <div className="bg-red-100 text-red-600 text-sm p-2 rounded">
+          {error}
+        </div>
+      )}
+
+      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md">
+        Login
+      </button>
     </form>
   );
 }
-
 export default Login;
