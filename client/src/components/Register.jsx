@@ -29,7 +29,7 @@ function Register() {
   return (
     <form onSubmit={handleRegister} className="space-y-4">
       <input
-        className="w-full border px-3 py-2 rounded-md"
+        className="w-full border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         type="text"
         placeholder="Username"
         value={username}
@@ -37,7 +37,7 @@ function Register() {
       />
 
       <input
-        className="w-full border px-3 py-2 rounded-md"
+        className="w-full border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
         type="password"
         placeholder="Password"
         value={password}
@@ -45,7 +45,7 @@ function Register() {
       />
 
       {error && (
-        <div className="bg-red-100 text-red-600 text-sm p-2 rounded">
+        <div className="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-sm p-2 rounded">
           {error}
         </div>
       )}
