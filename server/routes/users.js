@@ -17,23 +17,24 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login a user
+
+// Login a user without cookies 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
     // if (!user) return res.status(400).json({ message: "Invalid credentials" });
-    if (!user) return res.status(200).json({ message: "Invalid credentials" }); // to get the response in success change status to 200
+    if (!user) return res.status(401).json({ message: "Invalid credentials" }); // to get the response in success change status to 200
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
     // if (!isMatch) return res.status(200).json({ message: "Invalid credentials" });
     const users = await User.find();
-    users.forEach(user => console.log(`User: ${user.username}, ID: ${user._id}`));
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" });
-    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // id wont work here
+    // users.forEach(user => console.log(`User: ${user.username}, ID: ${user._id}`));
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // short lived token for testing
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // id wont work here - check later
     console.log(`Generated token for user ${user.username} with ID ${user._id}: ${token}`);
-    res.json({ token });
+    res.json({ token, username: user.username });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
