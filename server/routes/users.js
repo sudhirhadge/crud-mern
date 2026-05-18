@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
 });
 
 
-// Login a user without cookies 
+// Login a user with cookies 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -31,10 +31,16 @@ router.post("/login", async (req, res) => {
     // if (!isMatch) return res.status(200).json({ message: "Invalid credentials" });
     const users = await User.find();
     // users.forEach(user => console.log(`User: ${user.username}, ID: ${user._id}`));
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // short lived token for testing
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // short lived token for testing
     // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // id wont work here - check later
-    console.log(`Generated token for user ${user.username} with ID ${user._id}: ${token}`);
-    res.json({ token, username: user.username });
+    const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" }); // refresh token with longer expiry
+    console.log(`Generated access token for user ${user.username} with ID ${user._id}: ${accessToken}`);
+    console.log(`Generated refresh token for user ${user.username} with ID ${user._id}: ${refreshToken}`);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+    }).json({ accessToken, username: user.username });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -58,6 +64,40 @@ router.get("/me", auth, async (req, res) => {
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/refresh", (req, res) => {
+  const token = req.cookies.refreshToken;
+
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_REFRESH_SECRET
+    );
+
+    /*
+decoded = {
+  userId: "...",
+  iat: ...,
+  exp: ...
+}
+    */
+
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.JWT_SECRETNEW,
+      { expiresIn: "15m" }
+    );
+
+    res.json({ accessToken, message: "Access token refreshed successfully" });
+
+  } catch (err) {
+    return res.sendStatus(403);
   }
 });
 

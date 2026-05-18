@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors"); // Import the CORS middleware
 const morgan = require("morgan"); // Import the Morgan logging middleware for better request logging
 const dotenv = require("dotenv"); // Import dotenv to load environment variables
+const cookieParser = require("cookie-parser"); // Import cookie-parser to handle cookies
 
 // Import route handlers
 const itemRoutes = require("./routes/items"); //
@@ -21,7 +22,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
   preflightContinue: false, // Don't pass the CORS response to the next handler
   optionsSuccessStatus: 200, // Success status for OPTIONS request
-  // credentials: true, // Allow cookies and headers like Authorization
+  credentials: true, // Allow cookies and headers like Authorization
 };
 
 // Middlewares
@@ -30,6 +31,9 @@ app.use(cors(corsOptions));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Middleware to parse cookies
+app.use(cookieParser());
 
 // Middleware for logging
 app.use(morgan("dev"));
