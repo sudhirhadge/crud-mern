@@ -13,8 +13,8 @@ function AuthCard() {
                 <button
                     onClick={() => setTab("login")}
                     className={`flex-1 pb-2 font-medium ${tab === "login"
-                            ? "border-b-2 border-blue-600 text-blue-600"
-                            : "text-gray-500"
+                        ? "border-b-2 border-blue-600 text-blue-600"
+                        : "text-gray-500"
                         }`}
                 >
                     Login
@@ -23,8 +23,8 @@ function AuthCard() {
                 <button
                     onClick={() => setTab("register")}
                     className={`flex-1 pb-2 font-medium ${tab === "register"
-                            ? "border-b-2 border-blue-600 text-blue-600"
-                            : "text-gray-500"
+                        ? "border-b-2 border-blue-600 text-blue-600"
+                        : "text-gray-500"
                         }`}
                 >
                     Register
@@ -33,7 +33,7 @@ function AuthCard() {
 
             {/* Form */}
             {tab === "login" ? <Login /> : <Register />}
-
+            <div className="my-2 flex justify-center"> postman - 12345</div>
             {/* Divider */}
             <div className="my-6 flex items-center">
                 <div className="flex-1 h-px bg-gray-300" />
