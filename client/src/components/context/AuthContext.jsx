@@ -7,10 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null)
+  const [accessToken, setAccessToken] = useState(null)
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem('token');
+      const token = accessToken; // Get the token from state
       if (token) {
         try {
           const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
@@ -27,15 +28,20 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, []);
+  }, [accessToken]); // Re-run when accessToken changes
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, { username, password });
-      const token = response.data.token;
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, { username, password },
+        {
+          withCredentials: true // Ensure cookies are included in the request
+        }
+      );
+      const token = response.data.accessToken;
       console.log("token response", response)
-      !token && alert(response.data.message) // in case of error 
-      localStorage.setItem('token', token);
+      alert(response.data.message) // Show the message from the server in an alert
+      // localStorage.setItem('token', token);
+      setAccessToken(token);
       const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -50,12 +56,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
     setUser(null);
+    setAccessToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, error }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, error, accessToken, setAccessToken }}>
       {children}
     </AuthContext.Provider>
   );
