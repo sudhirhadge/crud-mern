@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
     // if (!isMatch) return res.status(200).json({ message: "Invalid credentials" });
     const users = await User.find();
     // users.forEach(user => console.log(`User: ${user.username}, ID: ${user._id}`));
-    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // short lived token for testing
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1m" }); // short lived token for testing
     // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETNEW, { expiresIn: "1h" }); // id wont work here - check later
     const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" }); // refresh token with longer expiry
     console.log(`Generated access token for user ${user.username} with ID ${user._id}: ${accessToken}`);
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
-    }).json({ accessToken, username: user.username });
+    }).json({ accessToken, username: user.username, message: "Login successful", expiresIn: "1m" });
 
   } catch (err) {
     res.status(500).json({ message: err.message });
