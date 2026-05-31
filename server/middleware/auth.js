@@ -16,7 +16,7 @@ function auth(req, res, next) {
   if (!token) return res.status(401).json({ message: "No token, authorization denied" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRETNEW); // Use the secret key from environment variables
+    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET); // Use the secret key from environment variables
     req.user = decoded.userId;
 
     /*
