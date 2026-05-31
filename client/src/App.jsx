@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
-import AuthContext, { AuthProvider } from './components/context/AuthContext';
+import { AuthProvider } from './components/context/AuthContext';
 
-import "./index.css"
-import AppContent from './AppContent';
+import "./index.css";
+import PersonaliseApp from './PersonaliseApp';
 
 function App() {
   const [currentItem, setCurrentItem] = useState(null)
@@ -13,7 +13,8 @@ function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <AppContent currentItem={currentItem} setCurrentItem={setCurrentItem} />
+        {/* <AppContent currentItem={currentItem} setCurrentItem={setCurrentItem} /> */}
+        <PersonaliseApp />
       </AuthProvider>
     </Provider>
   );

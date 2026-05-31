@@ -1,0 +1,44 @@
+/**
+ * Authentication Middleware
+ * Validates JWT tokens for protected routes
+ * 
+ * Architectural Decision:
+ * - Middleware separates auth logic from controllers
+ * - Adds user context to request object
+ * - Returns standardized error responses
+ */
+const tokenService = require('../services/tokenService');
+
+/**
+ * Verify JWT token from Authorization header
+ * Usage: app.use('/api/v1/sessions/me', authenticate, ...)
+ */
+function authenticate(req, res, next) {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({
+                success: false,
+                error: 'Access token required',
+            });
+        }
+
+        const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+        const decoded = tokenService.verifyToken(token);
+
+        // Attach decoded user info to request
+        req.user = decoded;
+
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            success: false,
+            error: error.message || 'Invalid token',
+        });
+    }
+}
+
+module.exports = {
+    authenticate,
+};

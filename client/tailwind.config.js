@@ -1,8 +1,38 @@
+
+/**
+ * Tailwind Configuration
+ * 
+ * Architectural Decision:
+ * - Content array specifies where Tailwind should look for class names
+ * - Includes all JSX files for proper tree-shaking
+ * - Presets ensure consistent theming
+ */
+//  @type {import('tailwindcss').Config} 
 export default {
-    darkMode: "class",
-    content: ["./index.html", "./src/**/*.{js,jsx}"],
+    content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+    ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: {
+                    50: '#f0f4ff',
+                    100: '#e0e8ff',
+                    200: '#c7d2fe',
+                    300: '#a5b4fc',
+                    400: '#818cf8',
+                    500: '#6366f1',
+                    600: '#4f46e5',
+                    700: '#4338ca',
+                    800: '#3730a3',
+                    900: '#312e81',
+                },
+            },
+            fontFamily: {
+                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            },
+        },
     },
     plugins: [],
 }

@@ -12,7 +12,7 @@ function auth2(req, res, next) {
 
     if (token) {
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRETNEW);
+        const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
         req.user = decoded.userId;
       } catch (err) {
         return res.status(400).json({ message: 'Token is not valid' });
